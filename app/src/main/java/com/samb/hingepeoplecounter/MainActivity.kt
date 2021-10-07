@@ -1,5 +1,6 @@
 package com.samb.hingepeoplecounter
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.view.isInvisible
@@ -8,23 +9,28 @@ import com.samb.hingepeoplecounter.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {
-   lateinit var presenter :MainPresenter
+    lateinit var presenter: MainPresenter
     private val ui: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(ui.root)
-        presenter = ViewModelProvider(this,MainPresenterFactory()).get(MainPresenter::class.java)
+        val sharedPreferences = baseContext.getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        presenter = ViewModelProvider(
+            this,
+            MainPresenterFactory(sharedPreferences)
+        ).get(MainPresenter::class.java)
         updateState()
 
         ui.plusBtn.setOnClickListener {
-           presenter.addPerson()
+            presenter.addPerson()
             updateState()
         }
 
         ui.minusBtn.setOnClickListener {
-           presenter.removePerson()
+            presenter.removePerson()
             updateState()
         }
 
@@ -33,7 +39,8 @@ class MainActivity : AppCompatActivity() {
             updateState()
         }
     }
-    fun updateState(){
+
+    fun updateState() {
         ui.mainCountText.text = presenter.getMainCount()
         ui.totalCountText.text = presenter.getTotalCount()
         ui.mainCountText.setTextColor(presenter.getMCColor())

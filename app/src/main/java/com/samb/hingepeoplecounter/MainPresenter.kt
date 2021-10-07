@@ -3,9 +3,9 @@ package com.samb.hingepeoplecounter
 import android.graphics.Color
 import androidx.lifecycle.ViewModel
 
-class MainPresenter :ViewModel(){
-    private var totalCount = 0
-    private var mainCount = 0
+class MainPresenter (val repository: MainRepository):ViewModel(){
+    private var totalCount = repository.getTotalCount()
+    private var mainCount = repository.getMainCount()
 
     fun isMinusBtnInvisible():Boolean{
         return mainCount <= 0
@@ -26,17 +26,25 @@ class MainPresenter :ViewModel(){
         }
     }
 
+    fun updateStoredCounts(){
+        repository.setMainCount(mainCount)
+        repository.setTotalCount(totalCount)
+    }
+
    fun addPerson() {
         totalCount++
         mainCount++
+       updateStoredCounts()
     }
 
    fun removePerson() {
         mainCount--
+       updateStoredCounts()
     }
 
     fun resetCount() {
         totalCount = 0
         mainCount = 0
+        updateStoredCounts()
     }
 }
