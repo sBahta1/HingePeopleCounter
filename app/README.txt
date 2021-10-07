@@ -9,8 +9,8 @@ something like MCP. Secondly for its modularity and and ability to more easliy
 add new features in the future. Lastly for the relatively simple and easy set up. I deviated from a strict
 adherence to this architecture in at least one major way when trying to keep the data persistent I
 used a ViewModel and its corresponding factory. In trying to resolve the issue of keeping the app
-state persistent I found a template from android that had the viewmodel and factory so I used
-those I don't exactly know how they work but im definitely eager to learn. To keep the data persistent
+state persistent I found a template from android that had the viewModelProvider so I used
+that, I don't fully understand how they work but im definitely eager to learn more. To keep the data persistent
 though app usages I used sharedPreferences instead of a database for the simple reason that i felt
 the app in its current state didn't warrant such an involved set up as a database because it had so
 little to store locally.
